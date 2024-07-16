@@ -1,0 +1,18 @@
+{% extends 'template_shop.html' %}
+
+{% block title %}
+{{Обувь}}
+{% endblock %}
+{% block body %}
+{% for shoes in shoes_lst %}
+    <div class="card" style="width: 38rem;">
+        <div class="card-body">
+            <h4 class="card-title">Модель</h4>
+            <p class="card-text">Размер: </p>
+            <p class="card-text">Цена:  рублей</p>
+
+        </div>
+    </div>
+    {%endfor%}
+
+{% endblock %}
