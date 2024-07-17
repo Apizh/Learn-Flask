@@ -1,6 +1,6 @@
 {% extends "template_shop.html" %}
 
-{% block title %}OnShop обувь{% endblock %}
+{% block title %}OnShop куртки{% endblock %}
 
 {% block content %}
     <table>
@@ -12,7 +12,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for item in shoes_lst %}
+            {% for item in jackets_lst %}
             <tr>
                 <td>{{ item['model'] }}</td>
                 <td>{{ item['size'] }}</td>

@@ -14,30 +14,22 @@
     </title>
 </head>
 <body>
-<div class="container-fluid">
-    <h1 href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-        <span class="fs-4">Каталог одежды</span>
-    </h1>
-    <ul class="nav nav-pills justify-content-end align-items-end">
-        <li class="nav-item"><a href="/shoes"
-                                class="nav-link">Обувь
-        </a></li>
-        <li class="nav-item"><a href="/jacket"
-                                class="nav-link">Куртки
-        </a></li>
-        <li class="nav-item"><a href="/trousers"
-                                class="nav-link">Штаны
-        </a></li>
-        <li class="nav-item"><a href="/sweater"
-                                class="nav-link">Кофты
-        </a></li>
-    </ul>
+    <header>
+        <h1>Интернет-магазин</h1>
+        <h4>Приветствуем в магазине OnShop! Bыберете категорию интересующих вас товаров.</h4>
+        <nav>
+            <ul>
+                <li><a href="shoes">Обувь</a></li>
+                <li><a href="trousers">Штаны</a></li>
+                <li><a href="jackets">Куртки</a></li>
+            </ul>
+        </nav>
+    </header>
     {% block content %}
-    Необходимо заполнить
     {% endblock %}
     <div class="row fixed-bottom modal-footer">
         <hr>
-        <p>Для заполнения новoстями, рекламы и прочей информацией</p>
+        <p>Для заполнения новoстями, рекламой и прочей информацией.</p>
         <p>Все права защищены &copy;</p>
     </div>
 </div>
