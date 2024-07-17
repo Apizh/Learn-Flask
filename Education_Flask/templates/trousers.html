@@ -1,5 +1,24 @@
-{% extends 'template_shop.html' %}
+{% extends "template_shop.html" %}
 
-{% block title %}
-{{Штаны}}
+{% block title %}OnShop штаны{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+            <tr>
+                <th>Модель</th>
+                <th>Размер</th>
+                <th>Цена</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in trousers_lst %}
+            <tr>
+                <td>{{ item['model'] }}</td>
+                <td>{{ item['size'] }}</td>
+                <td>{{ item['price'] }} рублей</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

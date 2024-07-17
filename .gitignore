@@ -10,6 +10,14 @@ venv/
 dist/
 *.egg-info/
 
+lib/
+
+include/
+
+Scripts/
+
+pyvenv.cfg
+
 # Файлы покрытия, кэши и прочие ненужные файлы
 .coverage
 *.py,cover
