@@ -1,7 +1,42 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
+import bcrypt
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+db = SQLAlchemy(app)
 
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(128), nullable=False)
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        email = request.form['email']
+        password = request.form['password'].encode('utf-8')
+
+        hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
+
+        new_user = User(first_name=first_name, last_name=last_name, email=email, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+
+        return redirect(url_for('success'))  # Настройте редирект на страницу успеха
+
+    return render_template('template_shop.html')
+
+
+@app.route('/success')
+def success():
+    return "Регистрация прошла успешно!"
 
 @app.route('/')
 def home_page():
@@ -39,4 +74,6 @@ def jackets():
 
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
