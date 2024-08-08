@@ -1,0 +1,49 @@
+import asyncio
+import aiohttp
+import argparse
+import os
+import time
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+
+async def fetch_and_save_image(session, url, save_path):
+    start_time = time.time()
+    async with session.get(url) as response:
+        if response.status == 200:
+            with open(save_path, 'wb') as f:
+                f.write(await response.read())
+            end_time = time.time()
+            print(f"Downloaded {url} in {end_time - start_time:.2f} seconds")
+        else:
+            print(f"Failed to download {url}, status code: {response.status}")
+
+def get_filename_from_url(url):
+    return os.path.basename(url)
+
+async def main(urls, max_threads, max_processes):
+    start_time = time.time()
+    async with aiohttp.ClientSession() as session:
+        tasks = []
+        with ThreadPoolExecutor(max_workers=max_threads) as executor:
+            with ProcessPoolExecutor(max_workers=max_processes) as process_executor:
+                loop = asyncio.get_event_loop()
+                for url in urls:
+                    save_path = get_filename_from_url(url)
+                    tasks.append(loop.run_in_executor(
+                        executor,
+                        lambda: asyncio.run(
+                            fetch_and_save_image(session, url, save_path)
+                        )
+                    ))
+                await asyncio.gather(*tasks)
+    total_time = time.time() - start_time
+    print(f"Total time: {total_time:.2f} seconds")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Download images asynchronously.")
+    parser.add_argument("urls", metavar="URL", type=str, nargs='+',
+                        help="URLs of the images to download.")
+    parser.add_argument("--threads", type=int, default=4, help="Number of threads.")
+    parser.add_argument("--processes", type=int, default=2, help="Number of processes.")
+    
+    args = parser.parse_args()
+    asyncio.run(main(args.urls, args.threads, args.processes))
